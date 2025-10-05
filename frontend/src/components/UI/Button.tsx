@@ -47,17 +47,20 @@ export function Button({
       return icon
     }
     
-    // If it's a function/component, use createElement
+    // If it's a function/component, render it as JSX
     if (typeof icon === 'function') {
-      return React.createElement(icon as React.ComponentType<any>, { className: "w-4 h-4" })
+      const IconComponent = icon as React.ComponentType<{ className?: string }>
+      return <IconComponent className="w-4 h-4" />
     }
     
-    // Check if it's an object (forwardRef, memo, etc.)
-    if (typeof icon === 'object' && icon !== null) {
-      return React.createElement(icon as any, { className: "w-4 h-4" })
+    // Check if it's an object with $$typeof (forwardRef, memo, etc.)
+    if (typeof icon === 'object' && icon !== null && '$$typeof' in icon) {
+      const IconComponent = icon as unknown as React.ComponentType<{ className?: string }>
+      return <IconComponent className="w-4 h-4" />
     }
     
     // Fallback: return null to avoid rendering invalid objects
+    console.warn('Button: Invalid icon type', icon)
     return null
   }
   
