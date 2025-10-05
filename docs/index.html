@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bitcoin Tycoon - Documentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #0f172a;
+            --bg-darker: #020617;
+            --bg-card: #1e293b;
+            --accent-green: #10b981;
+            --accent-blue: #3b82f6;
+            --accent-cyan: #06b6d4;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --border-color: #334155;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--bg-darker) 0%, var(--bg-dark) 100%);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.1;
+            background: 
+                radial-gradient(circle at 20% 50%, var(--accent-green) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, var(--accent-blue) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, var(--accent-cyan) 0%, transparent 50%);
+            animation: bgPulse 15s ease-in-out infinite;
+        }
+
+        @keyframes bgPulse {
+            0%, 100% { opacity: 0.1; }
+            50% { opacity: 0.2; }
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+            padding: 1rem 2rem;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--accent-green), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-green);
+        }
+
+        .lang-switch {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .lang-switch:hover {
+            border-color: var(--accent-green);
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+        }
+
+        /* Main Content */
+        main {
+            margin-top: 80px;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 4rem 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-green), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Status Badge */
+        .status-badge {
+            display: inline-block;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--accent-green);
+            color: var(--accent-green);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            margin: 2rem 0;
+            font-weight: 600;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+            50% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+        }
+
+        /* Cards */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .card {
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s;
+            animation: fadeInUp 0.6s ease-out both;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-green);
+            box-shadow: 0 10px 40px rgba(16, 185, 129, 0.2);
+        }
+
+        .card h3 {
+            color: var(--accent-cyan);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .card li {
+            padding: 0.5rem 0;
+            color: var(--text-secondary);
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .card li:before {
+            content: "▹";
+            position: absolute;
+            left: 0;
+            color: var(--accent-green);
+            font-weight: bold;
+        }
+
+        /* Section */
+        .section {
+            margin-bottom: 4rem;
+            animation: fadeInUp 0.8s ease-out both;
+        }
+
+        .section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: var(--accent-green);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 1rem;
+        }
+
+        /* Tech Stack */
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .tech-badge {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid var(--accent-blue);
+            color: var(--accent-blue);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .tech-badge:hover {
+            background: rgba(59, 130, 246, 0.2);
+            transform: scale(1.05);
+        }
+
+        /* Code Block */
+        .code-block {
+            background: var(--bg-darker);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-block pre {
+            color: var(--accent-green);
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        .code-label {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: var(--accent-blue);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            margin: 2rem 0;
+        }
+
+        .progress-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: var(--bg-darker);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-green), var(--accent-cyan));
+            transition: width 1s ease-out;
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+        }
+
+        /* API Endpoint */
+        .api-endpoint {
+            background: var(--bg-card);
+            border-left: 4px solid var(--accent-green);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+        }
+
+        .api-method {
+            display: inline-block;
+            background: var(--accent-green);
+            color: var(--bg-darker);
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-weight: bold;
+            margin-right: 1rem;
+            font-size: 0.85rem;
+        }
+
+        .api-method.post {
+            background: var(--accent-blue);
+        }
+
+        .api-method.put {
+            background: var(--accent-cyan);
+        }
+
+        .api-method.delete {
+            background: #ef4444;
+        }
+
+        .api-path {
+            color: var(--text-primary);
+            font-family: 'Courier New', monospace;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-darker);
+            border-top: 1px solid var(--border-color);
+            padding: 2rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Hidden class for language switching */
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <header>
+        <div class="header-content">
+            <div class="logo">⚡ Bitcoin Tycoon</div>
+            <nav class="nav-links">
+                <a href="#overview" data-en="Overview" data-hu="Áttekintés">Overview</a>
+                <a href="#features" data-en="Features" data-hu="Funkciók">Features</a>
+                <a href="#tech" data-en="Technology" data-hu="Technológia">Technology</a>
+                <a href="#api" data-en="API" data-hu="API">API</a>
+                <a href="#status" data-en="Status" data-hu="Státusz">Status</a>
+                <button class="lang-switch" onclick="toggleLanguage()">🌐 HU / EN</button>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <!-- Hero Section -->
+            <section class="hero">
+                <h1 data-en="Bitcoin Tycoon" data-hu="Bitcoin Tycoon">Bitcoin Tycoon</h1>
+                <p data-en="A real-time browser-based strategy game where you build and manage your cryptocurrency mining empire" 
+                   data-hu="Valós idejű böngészőalapú stratégiai játék, ahol kriptovaluta bányászati birodalmat építhetsz és irányíthatsz">
+                    A real-time browser-based strategy game where you build and manage your cryptocurrency mining empire
+                </p>
+                <div class="status-badge" data-en="🚀 Phase 3 Complete - 55% Overall Progress" 
+                     data-hu="🚀 3. Fázis Kész - 55% Teljes Haladás">
+                    🚀 Phase 3 Complete - 55% Overall Progress
+                </div>
+            </section>
+
+            <!-- Overview Section -->
+            <section id="overview" class="section">
+                <h2 data-en="📖 Game Overview" data-hu="📖 Játék Áttekintés">📖 Game Overview</h2>
+                <div class="card-grid">
+                    <div class="card">
+                        <h3 data-en="🎮 For Players" data-hu="🎮 Játékosoknak">🎮 For Players</h3>
+                        <ul>
+                            <li data-en="Build and upgrade mining facilities" data-hu="Építs és fejlessz bányászati létesítményeket">Build and upgrade mining facilities</li>
+                            <li data-en="Trade cryptocurrencies on dynamic markets" data-hu="Kereskedj kriptovalutákkal dinamikus piacokon">Trade cryptocurrencies on dynamic markets</li>
+                            <li data-en="Research new technologies" data-hu="Kutass új technológiákat">Research new technologies</li>
+                            <li data-en="Complete quests and challenges" data-hu="Teljesíts küldetéseket és kihívásokat">Complete quests and challenges</li>
+                            <li data-en="Participate in governance decisions" data-hu="Vegyél részt kormányzási döntésekben">Participate in governance decisions</li>
+                            <li data-en="Real-time simulation with 5-second ticks" data-hu="Valós idejű szimuláció 5 másodperces tickekkel">Real-time simulation with 5-second ticks</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h3 data-en="💡 Game Mechanics" data-hu="💡 Játékmechanikák">💡 Game Mechanics</h3>
+                        <ul>
+                            <li data-en="Resource management (BTC, energy, money)" data-hu="Erőforrás-gazdálkodás (BTC, energia, pénz)">Resource management (BTC, energy, money)</li>
+                            <li data-en="Dynamic market prices with volatility" data-hu="Dinamikus piaci árak volatilitással">Dynamic market prices with volatility</li>
+                            <li data-en="Mining efficiency and profitability" data-hu="Bányászati hatékonyság és jövedelmezőség">Mining efficiency and profitability</li>
+                            <li data-en="Technology tree progression" data-hu="Technológiai fa fejlődés">Technology tree progression</li>
+                            <li data-en="Quest system with rewards" data-hu="Küldetésrendszer jutalmakkal">Quest system with rewards</li>
+                            <li data-en="Governance voting system" data-hu="Kormányzási szavazási rendszer">Governance voting system</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h3 data-en="🎯 Game Goals" data-hu="🎯 Játék Célok">🎯 Game Goals</h3>
+                        <ul>
+                            <li data-en="Maximize mining profitability" data-hu="Maximalizáld a bányászati jövedelmezőséget">Maximize mining profitability</li>
+                            <li data-en="Expand your mining empire" data-hu="Bővítsd bányászati birodalmadat">Expand your mining empire</li>
+                            <li data-en="Master market trading" data-hu="Sajátítsd el a piaci kereskedést">Master market trading</li>
+                            <li data-en="Unlock advanced technologies" data-hu="Nyiss ki fejlett technológiákat">Unlock advanced technologies</li>
+                            <li data-en="Complete all quests" data-hu="Teljesítsd az összes küldetést">Complete all quests</li>
+                            <li data-en="Influence game governance" data-hu="Befolyásold a játék kormányzását">Influence game governance</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Features Section -->
+            <section id="features" class="section">
+                <h2 data-en="✨ Key Features" data-hu="✨ Főbb Funkciók">✨ Key Features</h2>
+                
+                <div class="card">
+                    <h3 data-en="⛏️ Mining System" data-hu="⛏️ Bányászati Rendszer">⛏️ Mining System</h3>
+                    <p data-en="Manage your mining operations with real-time calculations:" 
+                       data-hu="Irányítsd bányászati műveleteidet valós idejű számításokkal:">
+                        Manage your mining operations with real-time calculations:
+                    </p>
+                    <ul>
+                        <li data-en="Multiple miner types with different efficiency levels" data-hu="Többféle bányász típus különböző hatékonysági szintekkel">Multiple miner types with different efficiency levels</li>
+                        <li data-en="Upgrade system for improved performance" data-hu="Fejlesztési rendszer a jobb teljesítményért">Upgrade system for improved performance</li>
+                        <li data-en="Energy consumption and cost management" data-hu="Energiafogyasztás és költségkezelés">Energy consumption and cost management</li>
+                        <li data-en="Automatic BTC generation every tick" data-hu="Automatikus BTC generálás minden ticknél">Automatic BTC generation every tick</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3 data-en="📈 Market Trading" data-hu="📈 Piaci Kereskedés">📈 Market Trading</h3>
+                    <p data-en="Trade cryptocurrencies with dynamic pricing:" 
+                       data-hu="Kereskedj kriptovalutákkal dinamikus árazással:">
+                        Trade cryptocurrencies with dynamic pricing:
+                    </p>
+                    <ul>
+                        <li data-en="Real-time price updates with market volatility" data-hu="Valós idejű árfrissítések piaci volatilitással">Real-time price updates with market volatility</li>
+                        <li data-en="Buy and sell orders with instant execution" data-hu="Vételi és eladási megbízások azonnali végrehajtással">Buy and sell orders with instant execution</li>
+                        <li data-en="Transaction history and analytics" data-hu="Tranzakciós előzmények és analitika">Transaction history and analytics</li>
+                        <li data-en="Market depth and liquidity simulation" data-hu="Piaci mélység és likviditás szimuláció">Market depth and liquidity simulation</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3 data-en="🔬 Research & Development" data-hu="🔬 Kutatás és Fejlesztés">🔬 Research & Development</h3>
+                    <p data-en="Unlock new technologies to improve your operations:" 
+                       data-hu="Nyiss ki új technológiákat a műveletek javításához:">
+                        Unlock new technologies to improve your operations:
+                    </p>
+                    <ul>
+                        <li data-en="Technology tree with dependencies" data-hu="Technológiai fa függőségekkel">Technology tree with dependencies</li>
+                        <li data-en="Research time and cost requirements" data-hu="Kutatási idő és költségkövetelmények">Research time and cost requirements</li>
+                        <li data-en="Permanent bonuses and unlocks" data-hu="Állandó bónuszok és feloldások">Permanent bonuses and unlocks</li>
+                        <li data-en="Strategic choices for specialization" data-hu="Stratégiai választások a specializációhoz">Strategic choices for specialization</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Technology Stack -->
+            <section id="tech" class="section">
+                <h2 data-en="🛠️ Technology Stack" data-hu="🛠️ Technológiai Stack">🛠️ Technology Stack</h2>
+                
+                <div class="card">
+                    <h3 data-en="Backend Technologies" data-hu="Backend Technológiák">Backend Technologies</h3>
+                    <div class="tech-stack">
+                        <span class="tech-badge">Node.js</span>
+                        <span class="tech-badge">Express.js</span>
+                        <span class="tech-badge">TypeScript</span>
+                        <span class="tech-badge">PostgreSQL</span>
+                        <span class="tech-badge">Prisma ORM</span>
+                        <span class="tech-badge">WebSocket</span>
+                        <span class="tech-badge">JWT Auth</span>
+                        <span class="tech-badge">bcrypt</span>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-label">Backend Structure</div>
+                        <pre>
+backend/
+├── src/
+│   ├── controllers/     # 30+ API endpoints
+│   ├── services/        # Business logic
+│   ├── models/          # 16 Prisma models
+│   ├── middleware/      # Auth & validation
+│   ├── websocket/       # Real-time updates
+│   └── tick-engine/     # Game simulation
+├── prisma/
+│   └── schema.prisma    # Database schema
+└── tests/               # Integration tests</pre>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 data-en="Frontend Technologies" data-hu="Frontend Technológiák">Frontend Technologies</h3>
+                    <div class="tech-stack">
+                        <span class="tech-badge">React 18</span>
+                        <span class="tech-badge">TypeScript</span>
+                        <span class="tech-badge">Vite</span>
+                        <span class="tech-badge">Tailwind CSS</span>
+                        <span class="tech-badge">Zustand</span>
+                        <span class="tech-badge">React Router</span>
+                        <span class="tech-badge">Axios</span>
+                        <span class="tech-badge">WebSocket Client</span>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-label">Frontend Structure</div>
+                        <pre>
+frontend/
+├── src/
+│   ├── components/      # 20+ React components
+│   ├── pages/           # 7 main routes
+│   ├── store/           # Zustand state management
+│   ├── services/        # API integration
+│   ├── hooks/           # Custom React hooks
+│   └── types/           # TypeScript definitions
+└── public/              # Static assets</pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- API Documentation -->
+            <section id="api" class="section">
+                <h2 data-en="🔌 API Documentation" data-hu="🔌 API Dokumentáció">🔌 API Documentation</h2>
+                
+                <div class="card">
+                    <h3 data-en="Authentication Endpoints" data-hu="Hitelesítési Végpontok">Authentication Endpoints</h3>
+                    <div class="api-endpoint">
+                        <span class="api-method post">POST</span>
+                        <span class="api-path">/api/auth/register</span>
+                        <p data-en="Register a new user account" data-hu="Új felhasználói fiók regisztrálása">Register a new user account</p>
+                    </div>
+                    <div class="api-endpoint">
+                        <span class="api-method post">POST</span>
+                        <span class="api-path">/api/auth/login</span>
+                        <p data-en="Login and receive JWT token" data-hu="Bejelentkezés és JWT token fogadása">Login and receive JWT token</p>
+                    </div>
+                    <div class="api-endpoint">
+                        <span class="api-method">GET</span>
+                        <span class="api-path">/api/auth/me</span>
+                        <p data-en="Get current user profile" data-hu="Aktuális felhasználói profil lekérése">Get current user profile</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 data-en="Mining Endpoints" data-hu="Bányászati Végpontok">Mining Endpoints</h3>
+                    <div class="api-endpoint">
+                        <span class="api-method">GET</span>
+                        <span class="api-path">/api/miners</span>
+                        <p data-en="Get all miners for current user" data-hu="Összes bányász lekérése az aktuális felhasználóhoz">Get all miners for current user</p>
+                    </div>
+                    <div class="api-endpoint">
+                        <span class="api-method post">POST</span>
+                        <span class="api-path">/api/miners</span>
+                        <p data-en="Purchase a new miner" data-hu="Új bányász vásárlása">Purchase a new miner</p>
+                    </div>
+                    <div class="api-endpoint">
+                        <span class="api-method put">PUT</span>
+                        <span class="api-path">/api/miners/:id/upgrade</span>
+                        <p data-en="Upgrade an existing miner" data-hu="Meglévő bányász fejlesztése">Upgrade an existing miner</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 data-en="Market Endpoints" data-hu="Piaci Végpontok">Market Endpoints</h3>
+                    <div class="api-endpoint">
+                        <span class="api-method">GET</span>
+                        <span class="api-path">/api/market/prices</span>
+                        <p data-en="Get current market prices" data-hu="Aktuális piaci árak lekérése">Get current market prices</p>
+                    </div>
+                    <div class="api-endpoint">
+                        <span class="api-method post">POST</span>
+                        <span class="api-path">/api/market/buy</span>
+                        <p data-en="Execute a buy order" data-hu="Vételi megbízás végrehajtása">Execute a buy order</p>
+                    </div>
+                    <div class="api-endpoint">
+                        <span class="api-method post">POST</span>
+                        <span class="api-path">/api/market/sell</span>
+                        <p data-en="Execute a sell order" data-hu="Eladási megbízás végrehajtása">Execute a sell order</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 data-en="WebSocket Events" data-hu="WebSocket Események">WebSocket Events</h3>
+                    <div class="code-block">
+                        <pre>
+// Connect to WebSocket
+const ws = new WebSocket('ws://localhost:3001');
+
+// Listen for tick updates
+ws.on('tick', (data) => {
+  console.log('Game tick:', data.tickNumber);
+  console.log('Market prices:', data.marketPrices);
+  console.log('Mining rewards:', data.miningRewards);
+});
+
+// Listen for market updates
+ws.on('marketUpdate', (data) => {
+  console.log('Price change:', data);
+});</pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Database Schema -->
+            <section class="section">
+                <h2 data-en="🗄️ Database Schema" data-hu="🗄️ Adatbázis Séma">🗄️ Database Schema</h2>
+                
+                <div class="card">
+                    <h3 data-en="16 Database Models" data-hu="16 Adatbázis Modell">16 Database Models</h3>
+                    <div class="tech-stack">
+                        <span class="tech-badge">User</span>
+                        <span class="tech-badge">Miner</span>
+                        <span class="tech-badge">MinerType</span>
+                        <span class="tech-badge">MarketPrice</span>
+                        <span class="tech-badge">Transaction</span>
+                        <span class="tech-badge">Research</span>
+                        <span class="tech-badge">UserResearch</span>
+                        <span class="tech-badge">Quest</span>
+                        <span class="tech-badge">UserQuest</span>
+                        <span class="tech-badge">Achievement</span>
+                        <span class="tech-badge">UserAchievement</span>
+                        <span class="tech-badge">Governance</span>
+                        <span class="tech-badge">Vote</span>
+                        <span class="tech-badge">GameTick</span>
+                        <span class="tech-badge">Notification</span>
+                        <span class="tech-badge">Settings</span>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-label">Example: User Model</div>
+                        <pre>
+model User {
+  id            Int       @id @default(autoincrement())
+  username      String    @unique
+  email         String    @unique
+  passwordHash  String
+  btcBalance    Decimal   @default(0)
+  usdBalance    Decimal   @default(10000)
+  energyBalance Decimal   @default(1000)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  miners        Miner[]
+  transactions  Transaction[]
+  researches    UserResearch[]
+  quests        UserQuest[]
+  achievements  UserAchievement[]
+  votes         Vote[]
+  notifications Notification[]
+}</pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Project Status -->
+            <section id="status" class="section">
+                <h2 data-en="📊 Project Status" data-hu="📊 Projekt Státusz">📊 Project Status</h2>
+                
+                <div class="card">
+                    <h3 data-en="Development Progress" data-hu="Fejlesztési Haladás">Development Progress</h3>
+                    <div class="progress-container">
+                        <div class="progress-item">
+                            <div class="progress-label">
+                                <span data-en="Phase 1: Project Setup" data-hu="1. Fázis: Projekt Beállítás">Phase 1: Project Setup</span>
+                                <span>100%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 100%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="progress-item">
+                            <div class="progress-label">
+                                <span data-en="Phase 2: Backend Development" data-hu="2. Fázis: Backend Fejlesztés">Phase 2: Backend Development</span>
+                                <span>100%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 100%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="progress-item">
+                            <div class="progress-label">
+                                <span data-en="Phase 3: Frontend Development" data-hu="3. Fázis: Frontend Fejlesztés">Phase 3: Frontend Development</span>
+                                <span>100%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 100%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="progress-item">
+                            <div class="progress-label">
+                                <span data-en="Phase 4: Advanced Features" data-hu="4. Fázis: Haladó Funkciók">Phase 4: Advanced Features</span>
+                                <span>50%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 50%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="progress-item">
+                            <div class="progress-label">
+                                <span data-en="Phase 5: Integration & Testing" data-hu="5. Fázis: Integráció és Tesztelés">Phase 5: Integration & Testing</span>
+                                <span>0%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="progress-item">
+                            <div class="progress-label">
+                                <span data-en="Overall Progress" data-hu="Teljes Haladás">Overall Progress</span>
+                                <span>55%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 55%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-grid">
+                    <div class="card">
+                        <h3 data-en="✅ Completed" data-hu="✅ Befejezett">✅ Completed</h3>
+                        <ul>
+                            <li data-en="Full backend API (30+ endpoints)" data-hu="Teljes backend API (30+ végpont)">Full backend API (30+ endpoints)</li>
+                            <li data-en="Database schema (16 models)" data-hu="Adatbázis séma (16 modell)">Database schema (16 models)</li>
+                            <li data-en="Real-time tick engine" data-hu="Valós idejű tick motor">Real-time tick engine</li>
+                            <li data-en="WebSocket server" data-hu="WebSocket szerver">WebSocket server</li>
+                            <li data-en="Complete UI components" data-hu="Teljes UI komponensek">Complete UI components</li>
+                            <li data-en="7 main routes" data-hu="7 fő útvonal">7 main routes</li>
+                            <li data-en="State management" data-hu="Állapotkezelés">State management</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h3 data-en="🚧 In Progress" data-hu="🚧 Folyamatban">🚧 In Progress</h3>
+                        <ul>
+                            <li data-en="Advanced animations" data-hu="Haladó animációk">Advanced animations</li>
+                            <li data-en="Sound effects" data-hu="Hangeffektek">Sound effects</li>
+                            <li data-en="Mobile responsiveness" data-hu="Mobil reszponzivitás">Mobile responsiveness</li>
+                            <li data-en="Performance optimization" data-hu="Teljesítmény optimalizálás">Performance optimization</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h3 data-en="📋 Next Steps" data-hu="📋 Következő Lépések">📋 Next Steps</h3>
+                        <ul>
+                            <li data-en="Frontend-Backend integration" data-hu="Frontend-Backend integráció">Frontend-Backend integration</li>
+                            <li data-en="End-to-end testing" data-hu="Végponttól végpontig tesztelés">End-to-end testing</li>
+                            <li data-en="Bug fixes and polish" data-hu="Hibajavítások és csiszolás">Bug fixes and polish</li>
+                            <li data-en="Production deployment" data-hu="Éles telepítés">Production deployment</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick Start -->
+            <section class="section">
+                <h2 data-en="🚀 Quick Start Guide" data-hu="🚀 Gyors Kezdési Útmutató">🚀 Quick Start Guide</h2>
+                
+                <div class="card">
+                    <h3 data-en="For Developers" data-hu="Fejlesztőknek">For Developers</h3>
+                    <div class="code-block">
+                        <div class="code-label">Installation</div>
+                        <pre>
+# Clone the repository
+git clone https://github.com/yourusername/bitcoin-tycoon.git
+cd bitcoin-tycoon
+
+# Install backend dependencies
+cd backend
+npm install
+
+# Setup database
+npx prisma migrate dev
+npx prisma db seed
+
+# Start backend server
+npm run dev
+
+# In a new terminal, install frontend dependencies
+cd ../frontend
+npm install
+
+# Start frontend development server
+npm run dev</pre>
+                    </div>
+                    
+                    <div class="code-block">
+                        <div class="code-label">Environment Variables</div>
+                        <pre>
+# backend/.env
+DATABASE_URL="postgresql://user:password@localhost:5432/bitcoin_tycoon"
+JWT_SECRET="your-secret-key"
+PORT=3001
+
+# frontend/.env
+VITE_API_URL=http://localhost:3001
+VITE_WS_URL=ws://localhost:3001</pre>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 data-en="Testing the API" data-hu="API Tesztelése">Testing the API</h3>
+                    <div class="code-block">
+                        <div class="code-label">PowerShell</div>
+                        <pre>
+# Run backend tests
+cd backend
+npm test
+
+# Test API endpoints
+.\test-api.ps1
+
+# Test integration
+.\test-integration.ps1</pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Architecture -->
+            <section class="section">
+                <h2 data-en="🏗️ Architecture Overview" data-hu="🏗️ Architektúra Áttekintés">🏗️ Architecture Overview</h2>
+                
+                <div class="card">
+                    <h3 data-en="System Architecture" data-hu="Rendszer Architektúra">System Architecture</h3>
+                    <div class="code-block">
+                        <pre>
+┌─────────────────────────────────────────────────────────────┐
+│                         Frontend                            │
+│  React 18 + TypeScript + Vite + Tailwind CSS              │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐                │
+│  │  Pages   │  │Components│  │  Store   │                │
+│  └────┬─────┘  └────┬─────┘  └────┬─────┘                │
+│       │             │             │                        │
+│       └─────────────┴─────────────┘                        │
+│                     │                                       │
+└─────────────────────┼───────────────────────────────────────┘
+                      │
+                      │ HTTP/WebSocket
+                      │
+┌─────────────────────┼───────────────────────────────────────┐
+│                     │           Backend                     │
+│  Node.js + Express + TypeScript                            │
+│  ┌──────────────────┴────────────────────┐                │
+│  │         API Routes (REST)             │                │
+│  └──────────┬────────────────────────────┘                │
+│             │                                               │
+│  ┌──────────┴────────┐  ┌─────────────┐                  │
+│  │   Controllers      │  │  WebSocket  │                  │
+│  └──────────┬─────────┘  └──────┬──────┘                  │
+│             │                    │                          │
+│  ┌──────────┴────────────────────┴──────┐                │
+│  │          Services Layer               │                │
+│  └──────────┬────────────────────────────┘                │
+│             │                                               │
+│  ┌──────────┴────────┐  ┌─────────────┐                  │
+│  │   Prisma ORM      │  │ Tick Engine │                  │
+│  └──────────┬─────────┘  └─────────────┘                  │
+└─────────────┼─────────────────────────────────────────────┘
+              │
+              │
+┌─────────────┴─────────────────────────────────────────────┐
+│                    PostgreSQL Database                     │
+│  16 Tables with Relations                                  │
+└───────────────────────────────────────────────────────────┘</pre>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 data-en="Key Components" data-hu="Kulcs Komponensek">Key Components</h3>
+                    <ul>
+                        <li><strong data-en="REST API" data-hu="REST API">REST API</strong>: <span data-en="30+ endpoints for game operations" data-hu="30+ végpont játékműveletekhez">30+ endpoints for game operations</span></li>
+                        <li><strong data-en="WebSocket Server" data-hu="WebSocket Szerver">WebSocket Server</strong>: <span data-en="Real-time updates for tick events and market changes" data-hu="Valós idejű frissítések tick eseményekhez és piaci változásokhoz">Real-time updates for tick events and market changes</span></li>
+                        <li><strong data-en="Tick Engine" data-hu="Tick Motor">Tick Engine</strong>: <span data-en="Runs every 5 seconds, simulates mining, updates markets" data-hu="5 másodpercenként fut, szimulálja a bányászatot, frissíti a piacokat">Runs every 5 seconds, simulates mining, updates markets</span></li>
+                        <li><strong data-en="Prisma ORM" data-hu="Prisma ORM">Prisma ORM</strong>: <span data-en="Type-safe database access with migrations" data-hu="Típusbiztos adatbázis hozzáférés migrációkkal">Type-safe database access with migrations</span></li>
+                        <li><strong data-en="JWT Authentication" data-hu="JWT Hitelesítés">JWT Authentication</strong>: <span data-en="Secure user authentication and authorization" data-hu="Biztonságos felhasználói hitelesítés és jogosultság">Secure user authentication and authorization</span></li>
+                    </ul>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <footer>
+        <p data-en="© 2024 Bitcoin Tycoon - Built with ❤️ and TypeScript" 
+           data-hu="© 2024 Bitcoin Tycoon - Készült ❤️-tel és TypeScript-tel">
+            © 2024 Bitcoin Tycoon - Built with ❤️ and TypeScript
+        </p>
+        <p data-en="Phase 3 Complete | 55% Overall Progress | Next: Integration" 
+           data-hu="3. Fázis Kész | 55% Teljes Haladás | Következő: Integráció">
+            Phase 3 Complete | 55% Overall Progress | Next: Integration
+        </p>
+    </footer>
+
+    <script>
+        // Language switching functionality
+        let currentLang = 'en';
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'hu' : 'en';
+            updateLanguage();
+        }
+
+        function updateLanguage() {
+            const elements = document.querySelectorAll('[data-en][data-hu]');
+            elements.forEach(el => {
+                const text = el.getAttribute(`data-${currentLang}`);
+                if (text) {
+                    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                        el.placeholder = text;
+                    } else {
+                        el.textContent = text;
+                    }
+                }
+            });
+
+            // Update language button
+            const langButton = document.querySelector('.lang-switch');
+            langButton.textContent = currentLang === 'en' ? '🌐 HU / EN' : '🌐 EN / HU';
+        }
+
+        // Animate progress bars on scroll
+        const observerOptions = {
+            threshold: 0.5,
+            rootMargin: '0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const progressBars = entry.target.querySelectorAll('.progress-fill');
+                    progressBars.forEach(bar => {
+                        const width = bar.style.width;
+                        bar.style.width = '0%';
+                        setTimeout(() => {
+                            bar.style.width = width;
+                        }, 100);
+                    });
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        const progressSection = document.querySelector('.progress-container');
+        if (progressSection) {
+            observer.observe(progressSection.parentElement);
+        }
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add animation delay to cards
+        const cards = document.querySelectorAll('.card');
+        cards.forEach((card, index) => {
+            card.style.animationDelay = `${index * 0.1}s`;
+        });
+
+        // Initialize language
+        updateLanguage();
+    </script>
+</body>
+</html>
